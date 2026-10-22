@@ -4,12 +4,19 @@ import android.app.DownloadManager
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.os.Environment
+import android.webkit.CookieManager
 
 data class DlProgress(val status: Int, val bytes: Long, val total: Long)
 
 /**
  * Saving step (design: DownloadManager only, no extra permissions — the
  * system DownloadProvider writes into the shared Downloads store itself).
+ *
+ * Review findings applied: the destination name IS the sanitized+uniquified
+ * file name (history/library parity with disk), notifications are hidden
+ * (plan: "no notifications"), and the request rides the WebView cookie jar +
+ * a desktop-grade UA exactly like the browser-driven download did.
  */
 class Downloader(context: Context) {
     private val dm = context.applicationContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -21,7 +28,10 @@ class Downloader(context: Context) {
             .setMimeType(MIME_PDF)
             .setAllowedOverMetered(true)
             .setAllowedOverRoaming(true)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+        CookieManager.getInstance().getCookie(sourceUrl)?.let { request.addRequestHeader("Cookie", it) }
+        request.addRequestHeader("User-Agent", UA)
         return dm.enqueue(request)
     }
 
@@ -54,5 +64,6 @@ class Downloader(context: Context) {
 
     private companion object {
         const val MIME_PDF = "application/pdf"
+        const val UA = "Mozilla/5.0 (Android 14; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36"
     }
 }

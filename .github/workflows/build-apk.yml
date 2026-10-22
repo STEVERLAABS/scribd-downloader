@@ -27,6 +27,12 @@ jobs:
       - name: Regenerate Gradle wrapper
         run: gradle wrapper --gradle-version 8.11.1
 
+      - name: Guard — the JS bridge is wired on both sides
+        run: |
+          grep -q 'addJavascriptInterface' app/src/main/java/com/stever/scribdownloader/engine/AutopilotEngine.kt
+          grep -q 'SteVeRBridge' app/src/main/assets/autopilot.js
+          grep -q 'SteVeRBridge' app/src/main/java/com/stever/scribdownloader/engine/AutopilotEngine.kt
+
       - name: Ensure Android platform + build tools
         run: |
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null 2>&1 || true

@@ -69,6 +69,9 @@ class AutopilotEngine(
             mediaPlaybackRequiresUserGesture = true
             javaScriptCanOpenWindowsAutomatically = false
         }
+        // CRITICAL: the name must match window.SteVeRBridge in autopilot.js.
+        // Re-registering on every start() replaces the instance — idempotent.
+        webView.addJavascriptInterface(JsBridge(), "SteVeRBridge")
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 val url = request.url

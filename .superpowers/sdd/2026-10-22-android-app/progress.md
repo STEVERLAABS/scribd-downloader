@@ -28,4 +28,14 @@ Task 11: complete — DownloadScreen + LibraryScreen + AppRoot + MainActivity + 
 Task 12: complete — bibliothèque : open/share/delete précis (DownloadManager.remove → MediaStore → MISSING_FILE).
 Task 13: complete — README (3 voies APK), CI build-apk.yml, device-checklist ; commits & review finale (post-tâche).
 
-Revue finale: dispatch subagent code-reviewer sur tout le diff → findings traitée ci-dessous (à compléter après la revue).
+Revue finale (subagent code-reviewer, HEAD 97ce890):
+- Strengths: port 1:1 confirmé (sélecteurs, budgets, priorités), tests conformes au contrat, CI sensée, cycle WebView sain, KeyMapper complet côté statuts.
+- CRITICAL #1 réseau moteur mort → corrigé immédiatement: addJavascriptInterface(JsBridge(), "SteVeRBridge") dans prepWebView ( garde CI grep ajoutée, build-apk.yml).
+- Important #2 wait_timeout/captcha_timeout non mappés → KeyMapper corrigé + chaîne error_wait_timeout FR/EN ajoutée; Ruling (timeout): wait_timeout/captcha_timeout sont des ERREURS terminales précises dans l'app (delta assumé vs extension: extension gardait la session; on ne ment pas sur la cause réseau) — consigné ici comme décision d'interface.
+- Important #3 nom réel du fichier → setDestinationInExternalPublicDir(Download, fileName) — nom unique autoritaire (parité historique/disque).
+- Important #4 → VISIBILITY_HIDDEN (contrainte "pas de notifications").
+- Important #5 → cookie jar (CookieManager) + UA navigateur portés sur HEAD & DownloadManager (sémantique extension via navigateur).
+- Important #6 → résolu par #2 (précision des messages), accepté en tant qu'erreur terminale (ruling ci-dessus).
+- Minor #9 thread marquage synchrone avant SAVED ; #10 Annuler disponible en phase 3 (downloader.remove + suppression entrée incomplète) ; #8 taille affichée en bibliothèque + récepteur met à jour la vraie taille ; #11 noté dans le checklist (API 24–28) ; #12 chaîne morte error_continue_url supprimée, clé morte 'captcha' retirée, progressions: ProgressRow plié dans PipelineCard, FileActions placé dans download/ (écart de planification documenté), colors.xml absent (thème en Kotlin — volontaire).
+- Déféré: commit du wrapper Gradle (généré par CI/Studio — pas de toolchain locale), tag v1.0.0-steVeR (à l'utilisateur), texte avatars/a11y au-delà du plan, garde anti-spam du service externe (hors code).
+- Verdict revu: Ready to merge = With fixes → fixes appliqués dans le commit suivant 97ce890; le circuit de vérification exécutable reste CI (tests+assembleDebug) et le device-checklist (scénario 1 en premier task suite au hook du moteur).

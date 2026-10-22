@@ -52,8 +52,8 @@ echo "sdk.dir=/chemin/vers/SDK" > local.properties   # Windows : C:\\Users\\…\
 nécessaire en local.)
 
 ### C. GitHub Actions (aucun outil local requis)
-Pousser ce dossier sur un dépôt GitHub (branche `main`) → onglet **Actions** → workflow
-**Build APK** → artefact `app-debug-apk` téléchargeable à chaque push.
+Pousser ce dossier sur un dépôt GitHub (branche `main` ou `master`) → onglet **Actions** → workflow
+**Build APK** → artefact `app-debug-apk` téléchargeable à chaque push (tests + montage compris).
 
 ---
 

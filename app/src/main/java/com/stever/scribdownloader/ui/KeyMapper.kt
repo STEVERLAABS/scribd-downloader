@@ -24,10 +24,11 @@ fun statusStringRes(key: String?): Int = when (key) {
 fun errorStringRes(key: String?): Int = when (key) {
     "error_invalid_url" -> R.string.error_invalid_url
     "error_network" -> R.string.error_network
+    "error_timeout" -> R.string.error_timeout
+    "wait_timeout" -> R.string.error_wait_timeout
+    "captcha_timeout" -> R.string.error_captcha_timeout
     "error_detected" -> R.string.error_detected
     "error_damaged" -> R.string.error_damaged
-    "error_timeout" -> R.string.error_timeout
-    "error_captcha_timeout" -> R.string.error_captcha_timeout
     "error_cancelled" -> R.string.error_cancelled
     else -> R.string.error_network
 }

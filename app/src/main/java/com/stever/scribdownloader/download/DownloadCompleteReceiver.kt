@@ -16,6 +16,8 @@ class DownloadCompleteReceiver : BroadcastReceiver() {
         if (intent.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) return
         val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L)
         if (id <= 0L) return
-        HistoryStore(context).markCompleted(id, sizeBytes = null)
+        // Best-effort real size so the library row is complete even after death.
+        val size = runCatching { Downloader(context).progress(id)?.total }.getOrNull()?.takeIf { it > 0 }
+        HistoryStore(context).markCompleted(id, size)
     }
 }

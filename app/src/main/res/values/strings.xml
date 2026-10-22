@@ -42,10 +42,10 @@
 
     <string name="error_invalid_url">Not a valid Scribd document link.</string>
     <string name="error_network">Network error — check your connection and try again.</string>
-    <string name="error_continue_url">The service does not cover that link format. Try the canonical scribd.com/document/… page URL.</string>
     <string name="error_detected">Document unavailable — the external server cannot provide this document as an original PDF.</string>
     <string name="error_damaged">File unavailable — the original PDF is empty or corrupted on the external server.</string>
     <string name="error_timeout">The external server took too long. Try again in a few minutes.</string>
+    <string name="error_wait_timeout">The server is still preparing the link — unfinished after 90 s. Try again in a few minutes.</string>
     <string name="error_captcha_timeout">Verification was not completed in time. Tap Retry, then complete the captcha early.</string>
     <string name="error_cancelled">Canceled. The link stays here if you want to try again.</string>
 </resources>

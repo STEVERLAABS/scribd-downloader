@@ -2,6 +2,7 @@ package com.stever.scribdownloader.engine
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import android.webkit.CookieManager
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -36,6 +37,8 @@ object PdfValidator {
                 conn.connectTimeout = 8_000
                 conn.readTimeout = 8_000
                 conn.setRequestProperty("User-Agent", UA)
+                // Same as the browser fetch: ride the WebView cookie jar.
+                CookieManager.getInstance().getCookie(pdfUrl)?.let { conn.setRequestProperty("Cookie", it) }
                 val code = conn.responseCode
                 if (code !in 200..399) return@runCatching null
                 val mime = conn.contentType

@@ -171,7 +171,7 @@ private fun LibraryRow(
                     maxLines = 1,
                 )
                 Text(
-                    entry.fileName + " — " + formatDate(entry.addedAt, entry.completed),
+                    entry.fileName + " — " + metadataLine(entry.sizeBytes, entry.addedAt, entry.completed),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
@@ -200,3 +200,15 @@ private fun formatDate(addedAt: Long, completed: Boolean): String {
     val date = java.text.DateFormat.getDateInstance().format(java.util.Date(addedAt))
     return if (completed) date else date + " • ⏳"
 }
+
+private fun formatSize(bytes: Long): String = when {
+    bytes >= 1_000_000 -> String.format("%.1f MB", bytes / 1_048_576.0)
+    bytes > 0 -> String.format("%.0f KB", bytes / 1024.0)
+    else -> ""
+}
+
+private fun metadataLine(sizeBytes: Long, addedAt: Long, completed: Boolean): String =
+    listOfNotNull(
+        formatSize(sizeBytes).takeIf { it.isNotEmpty() },
+        formatDate(addedAt, completed),
+    ).joinToString(" — ")

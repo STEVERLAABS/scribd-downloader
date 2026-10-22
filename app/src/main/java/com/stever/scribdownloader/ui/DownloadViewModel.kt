@@ -139,12 +139,11 @@ class DownloadViewModel(app: Application) : AndroidViewModel(app) {
         when (event) {
             is EngineEvent.Status -> {
                 // verify_manual keeps the engine card expanded so the user can tap the checkbox.
-                val showCaptcha = event.key == "verify_manual"
                 _state.value = _state.value.copy(
                     phase = Phase.TRANSFER,
                     engineStep = event.step,
                     statusKey = event.key,
-                    captchaVisible = showCaptcha || event.key == "captcha",
+                    captchaVisible = event.key == "verify_manual",
                 )
             }
             is EngineEvent.Captcha -> {
@@ -229,25 +228,48 @@ class DownloadViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     private fun finishDownload(total: Long) {
-        val old = _state.value.lastSavedEntry
-        maybeMarkCompleted(activeDownloadId, total)
+        viewModelScope.launch {
+            // Query the real size when DownloadManager didn't report one, then
+            // mark + read the store synchronously so SAVED shows the truth.
+            val size = withContext(Dispatchers.IO) {
+                if (total > 0) total else downloader.progress(activeDownloadId)?.total ?: 0L
+            }
+            withContext(Dispatchers.IO) {
+                historyStore.markCompleted(activeDownloadId, size.takeIf { it > 0 })
+                refreshLibrary()
+            }
+            _state.value = _state.value.copy(
+                phase = Phase.SAVED,
+                progressBytes = size.takeIf { it > 0 },
+                progressTotal = total,
+                lastSavedEntry = _library.value.firstOrNull { it.downloadId == activeDownloadId },
+            )
+        }
+    }
+
+    /** Cancel affordance for phase 3 (design: "Annuler reste disponible à tout moment"). */
+    fun cancelDownload() {
+        val id = activeDownloadId
+        if (id <= 0) return
+        pollJob?.cancel()
+        pollJob = null
+        activeDownloadId = -1
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching { downloader.remove(id) }
+            // An in-flight entry is a promise not kept: remove it honestly.
+            historyStore.all().firstOrNull { it.downloadId == id && !it.completed }
+                ?.let { historyStore.deleteEntry(it.id) }
+            refreshLibrary()
+        }
         _state.value = _state.value.copy(
-            phase = Phase.SAVED,
-            progressTotal = total,
-            lastSavedEntry = storeEntryFor(activeDownloadId),
+            phase = Phase.ERROR,
+            engineRunning = false,
+            captchaVisible = false,
+            progressBytes = null,
+            progressTotal = null,
+            errorKey = "error_cancelled",
+            retryable = true,
         )
-        refreshLibrary()
-        if (old != null && old.downloadId != activeDownloadId) refreshLibrary()
-    }
-
-    private fun maybeMarkCompleted(downloadId: Long, total: Long) {
-        if (downloadId <= 0) return
-        viewModelScope.launch(Dispatchers.IO) { historyStore.markCompleted(downloadId, total.takeIf { it > 0 }) }
-    }
-
-    private fun storeEntryFor(downloadId: Long): HistoryEntry? {
-        refreshLibrary()
-        return _library.value.firstOrNull { it.downloadId == downloadId }
     }
 
     fun refreshLibrary() {

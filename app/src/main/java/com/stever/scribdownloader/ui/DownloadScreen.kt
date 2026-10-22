@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -177,6 +178,7 @@ fun DownloadScreen(
                 webView = webView,
                 engineRunning = state.engineRunning,
                 onCancel = viewModel::cancel,
+                onCancelDownload = viewModel::cancelDownload,
             )
         }
 
@@ -200,6 +202,7 @@ private fun PipelineCard(
     webView: WebView,
     engineRunning: Boolean,
     onCancel: () -> Unit,
+    onCancelDownload: () -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -244,6 +247,11 @@ private fun PipelineCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 8.dp),
                 )
+            }
+            if (state.phase == Phase.DOWNLOAD) {
+                TextButton(onClick = onCancelDownload, modifier = Modifier.align(Alignment.End)) {
+                    Text(stringResource(R.string.cancel))
+                }
             }
         }
     }

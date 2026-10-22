@@ -25,3 +25,6 @@ Exécuter chaque scénario sur un appareil réel (API 29+ recommandé). Marquer 
   (téléchargements ~600 Mo expirés/0 B/s — connexion très lente) : les checkpoints ici
   ci-dessus restent la première étape de validation réelle du produit.
 - Les tests JVM et `assembleDebug` sont eux vérifiés par le workflow GitHub Actions inclus.
+- Ligne 9/11 (Ouvrir / Supprimer) sur appareil **API 24–28** : l'app n'a aucune permission
+  disque ; si l'ouverture échoue, le message « introuvable » peut être imprécis sur ce
+  segment OS (revue #11) — tester prioritairement sur Android 10+.

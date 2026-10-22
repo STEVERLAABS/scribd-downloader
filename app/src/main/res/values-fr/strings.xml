@@ -42,10 +42,10 @@
 
     <string name="error_invalid_url">Lien Scribd invalide.</string>
     <string name="error_network">Erreur réseau — vérifiez votre connexion puis réessayez.</string>
-    <string name="error_continue_url">Le service ne couvre pas ce format de lien. Essayez l\'URL canonique de la page scribd.com/document/…</string>
     <string name="error_detected">Document indisponible — le serveur externe ne peut pas fournir ce document en PDF original.</string>
     <string name="error_damaged">Fichier indisponible — le PDF original est vide ou corrompu sur le serveur externe.</string>
     <string name="error_timeout">Le serveur externe a mis trop de temps. Réessayez dans quelques minutes.</string>
+    <string name="error_wait_timeout">Le serveur prépare encore le lien — inachevé après 90 s. Réessayez dans quelques minutes.</string>
     <string name="error_captcha_timeout">La vérification n\'a pas été complétée à temps. Touchez Réessayer, puis complétez le captcha rapidement.</string>
     <string name="error_cancelled">Annulé. Le lien reste ici si vous voulez réessayer.</string>
 </resources>
