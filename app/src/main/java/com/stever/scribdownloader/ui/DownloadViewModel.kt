@@ -1,7 +1,6 @@
 package com.stever.scribdownloader.ui
 
 import android.app.Application
-import android.webkit.WebView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.stever.scribdownloader.data.HistoryEntry
@@ -55,6 +54,13 @@ class DownloadViewModel(app: Application) : AndroidViewModel(app) {
         eventCollector?.cancel()
         eventCollector = viewModelScope.launch {
             engine.events.collect { onEngineEvent(it) }
+        }
+    }
+
+    /** Screen (tab) left composition while a flow was live — be honest about it. */
+    fun onScreenLost() {
+        if (_state.value.phase != Phase.DOWNLOAD && _state.value.engineRunning) {
+            cancel()
         }
     }
 
@@ -115,10 +121,10 @@ class DownloadViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun cancel() {
-        eventCollector?.cancel()
-        eventCollector = null
         pollJob?.cancel()
         pollJob = null
+        // NOTE: the event collector stays alive for the VM lifetime — killing it
+        // here would leave Retry/start collecting nothing (PdfFound ignored).
         engine?.cancel()
         _state.value = _state.value.copy(
             phase = Phase.ERROR,

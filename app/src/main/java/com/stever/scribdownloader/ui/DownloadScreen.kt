@@ -67,11 +67,14 @@ fun DownloadScreen(
 
     // One WebView (and therefore one engine + one event pipe) per screen session:
     // no leak when the engine card shows/hides, no event loss before binding.
-    val engineEvents = remember { MutableSharedFlow<EngineEvent>(replay = 8, extraBufferCapacity = 16) }
+    val engineEvents = remember { MutableSharedFlow<EngineEvent>(extraBufferCapacity = 16) }
     val webView = remember { WebView(context).apply { isVerticalScrollBarEnabled = false } }
     val engine = remember { AutopilotEngine(webView, engineEvents) }
     DisposableEffect(Unit) {
         onDispose {
+            // Tab switch / navigation away mid-flow must not leave a phantom
+            // "still running" state on return; downloads (phase 3) survive.
+            viewModel.onScreenLost()
             engine.cancel()
             webView.destroy()
         }

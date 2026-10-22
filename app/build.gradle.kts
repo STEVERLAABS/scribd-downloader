@@ -34,7 +34,9 @@ android {
         compose = true
     }
     testOptions {
-        unitTests.isReturnDefaultValues = false
+        // HistoryCodec (and friends) touch android.util.Log — let the jar stubs
+        // return defaults in plain JVM unit tests instead of throwing.
+        unitTests.isReturnDefaultValues = true
     }
     lint {
         abortOnError = false
