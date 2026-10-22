@@ -12,6 +12,16 @@ Ruling (env, re-test à la demande utilisateur — 2026-10-22 v2): nouvelle tent
 2. `C:\Users\Admin\Desktop\GitHub-Upload\` — copie propre du projet (60 fichiers, 175 Ko, sans .git/.gradle/build/local.properties/.superpowers) destinée au glisser-déposer sur github.com ("uploading an existing file") → le workflow build-apk.yml produit l'artefact app-debug-apk (≈5 Mo, téléchargeable même sur lien lent, directement depuis le téléphone).
 3. Guide pas-à-pas en arabe: `docs/install/الحصول-على-APK.md` + copie sur le Desktop (`طريقة-الحصول-على-APK.md`), incl. transfert USB/Drive et installation "sources inconnues" + Play Protect.
 Ruling (règle d'engagement): ne PAS clamer un fichier APK inexistant — fichier seulement après build réussi (CI ou script).
+
+=== 2026-10-22 — Livraison via GitHub (à la demande «apk vers site web») ===
+Réseau re-testé: github.com/api.github.com répondent (≈27 KB/s) → la voie web est viable depuis CE poste pour des charges utiles petites seulement.
+Flux exécuté:
+1. Token fourni par l'utilisateur dans le chat (ghp_… : à RÉVOQUER après usage aussi tôt que possible).
+2. GET /user → login = STEVERLAABS (le compte d'origine du projet).
+3. POST /user/repos → dépôt public créé: STEVERLAABS/scribd-downloader (HTTP 201).
+4. git push (HEAD → refs/heads/main) via URL jetable = PUSH OK (aucun secret persisté dans .git/config).
+5. run CI déclenché: id 39802169320 → poller en tâche de fond (poll-artifact.ps1) qui télécharge l'artefact app-debug-apk (~5 Mo) et pose l'APK sur le Desktop: C:\Users\Admin\Desktop\ScribdDownloader-steVeR-debug.apk.
+À surveiller: si le run échoue, corriger dans le dépôt et repousser; si l'artefact manque, re-builde via workflow_dispatch.
 Ruling (garbage collection mémoire): le WebView est créé une fois par session d'écran (remember) et détruit dans DisposableEffect(onDispose) — le Pattern AndroidView(factory=…) initial fuyait à chaque apparition/disparition du bloc moteur. Corrigé (EngineCard reçoit l'instance).
 Correction (contrat de collage): __spdPaste est re-semé à chaque onPageFinished tant qu'il est présent, jamais écrasé par null — les chaînes captcha→formulaire re-remplissent le champ (delta 3 du design porté en acte).
 Correction (T6): PdfValidator.evaluate traite contentLength < 0 comme taille inconnue → OK (aligne l'impl sur PdfValidatorTest ; HttpURLConnection renvoie -1).
