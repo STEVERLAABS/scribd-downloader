@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Scribd Downloader steVeR</string>
+    <string name="tab_download">Download</string>
+    <string name="tab_library">Library</string>
+
+    <string name="input_hint">Paste a Scribd link (scribd.com/doc/…)</string>
+    <string name="paste">Paste</string>
+    <string name="invalid_url">Not a Scribd document link. Expected something like scribd.com/document/123…</string>
+    <string name="url_recognized">Document recognized — ID %1$d</string>
+    <string name="download_btn">⬇ Download</string>
+
+    <string name="step_analysis">Analyzing the link</string>
+    <string name="step_fetch">Fetching the document</string>
+    <string name="step_download">Downloading</string>
+    <string name="step_save">Saving</string>
+
+    <string name="keep_foreground">Keep the app in the foreground while the document is being prepared (the download itself can run in the background).</string>
+    <string name="engine_title">Download engine</string>
+    <string name="engine_step">Step %1$d / 4</string>
+    <string name="engine_captcha">Verification required — tap the checkbox inside the engine window below. The flow resumes automatically.</string>
+
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="open">Open</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+    <string name="delete_missing">File not found — it was already removed manually.</string>
+    <string name="library_empty">No document yet.\nPaste a Scribd link to download your first PDF.</string>
+    <string name="credit">Personal backup use only — respect publishers\' rights. © ing steVeR</string>
+
+    <string name="status_init">Connecting to the service…</string>
+    <string name="status_verify">Security check — completing automatically…</string>
+    <string name="status_verify_manual">Verification needs you: complete the captcha in the engine window.</string>
+    <string name="status_verify_done">Verification complete — accessing document…</string>
+    <string name="status_wait">Server is generating the download link…</string>
+    <string name="status_redirect">Redirecting — final download phase…</string>
+    <string name="status_analyzing">Analyzing document — locating PDF file…</string>
+    <string name="status_validating">Verifying integrity — checking size and type…</string>
+    <string name="status_downloading">Downloading the PDF…</string>
+    <string name="status_success">Document ready!</string>
+
+    <string name="error_invalid_url">Not a valid Scribd document link.</string>
+    <string name="error_network">Network error — check your connection and try again.</string>
+    <string name="error_continue_url">The service does not cover that link format. Try the canonical scribd.com/document/… page URL.</string>
+    <string name="error_detected">Document unavailable — the external server cannot provide this document as an original PDF.</string>
+    <string name="error_damaged">File unavailable — the original PDF is empty or corrupted on the external server.</string>
+    <string name="error_timeout">The external server took too long. Try again in a few minutes.</string>
+    <string name="error_captcha_timeout">Verification was not completed in time. Tap Retry, then complete the captcha early.</string>
+    <string name="error_cancelled">Canceled. The link stays here if you want to try again.</string>
+</resources>

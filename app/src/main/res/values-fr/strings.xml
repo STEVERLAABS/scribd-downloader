@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Scribd Downloader steVeR</string>
+    <string name="tab_download">Télécharger</string>
+    <string name="tab_library">Bibliothèque</string>
+
+    <string name="input_hint">Collez un lien Scribd (scribd.com/doc/…)</string>
+    <string name="paste">Coller</string>
+    <string name="invalid_url">Ce n\'est pas un lien document Scribd. Attendu : scribd.com/document/123…</string>
+    <string name="url_recognized">Document reconnu — ID %1$d</string>
+    <string name="download_btn">⬇ Télécharger</string>
+
+    <string name="step_analysis">Analyse du lien</string>
+    <string name="step_fetch">Récupération du document</string>
+    <string name="step_download">Téléchargement</string>
+    <string name="step_save">Enregistrement</string>
+
+    <string name="keep_foreground">Laissez l\'app au premier plan pendant la préparation (le téléchargement lui-même peut tourner en arrière-plan).</string>
+    <string name="engine_title">Moteur de téléchargement</string>
+    <string name="engine_step">Étape %1$d / 4</string>
+    <string name="engine_captcha">Vérification requise — cochez la case dans la fenêtre du moteur ci-dessous. Le flux reprendra automatiquement.</string>
+
+    <string name="retry">Réessayer</string>
+    <string name="cancel">Annuler</string>
+    <string name="open">Ouvrir</string>
+    <string name="share">Partager</string>
+    <string name="delete">Supprimer</string>
+    <string name="delete_missing">Fichier introuvable — il a déjà été supprimé manuellement.</string>
+    <string name="library_empty">Aucun document pour l\'instant.\nCollez un lien Scribd pour télécharger votre premier PDF.</string>
+    <string name="credit">Usage de sauvegarde personnelle — respectez les droits des éditeurs. © ing steVeR</string>
+
+    <string name="status_init">Connexion au service…</string>
+    <string name="status_verify">Contrôle de sécurité — résolution automatique…</string>
+    <string name="status_verify_manual">La vérification a besoin de vous : cochez le captcha dans la fenêtre du moteur.</string>
+    <string name="status_verify_done">Vérification terminée — accès au document…</string>
+    <string name="status_wait">Le serveur génère le lien de téléchargement…</string>
+    <string name="status_redirect">Redirection — phase finale du téléchargement…</string>
+    <string name="status_analyzing">Analyse du document — localisation du fichier PDF…</string>
+    <string name="status_validating">Vérification de l\'intégrité — taille et type…</string>
+    <string name="status_downloading">Téléchargement du PDF…</string>
+    <string name="status_success">Document prêt !</string>
+
+    <string name="error_invalid_url">Lien Scribd invalide.</string>
+    <string name="error_network">Erreur réseau — vérifiez votre connexion puis réessayez.</string>
+    <string name="error_continue_url">Le service ne couvre pas ce format de lien. Essayez l\'URL canonique de la page scribd.com/document/…</string>
+    <string name="error_detected">Document indisponible — le serveur externe ne peut pas fournir ce document en PDF original.</string>
+    <string name="error_damaged">Fichier indisponible — le PDF original est vide ou corrompu sur le serveur externe.</string>
+    <string name="error_timeout">Le serveur externe a mis trop de temps. Réessayez dans quelques minutes.</string>
+    <string name="error_captcha_timeout">La vérification n\'a pas été complétée à temps. Touchez Réessayer, puis complétez le captcha rapidement.</string>
+    <string name="error_cancelled">Annulé. Le lien reste ici si vous voulez réessayer.</string>
+</resources>
